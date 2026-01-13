@@ -63,8 +63,9 @@ void MTCTaskNode::setupPlanningScene()
   object.primitives[0].dimensions = { 0.1, 0.02 };
 
   geometry_msgs::msg::Pose pose;
-  pose.position.x = 0.5;
+  pose.position.x = 0.8;
   pose.position.y = -0.25;
+  pose.position.z = 0.3;
   pose.orientation.w = 1.0;
   object.pose = pose;
 
@@ -187,15 +188,15 @@ mtc::Task MTCTaskNode::createTask()
     stage->properties().set("marker_ns", "grasp_pose");
     stage->setPreGraspPose(open);
     stage->setObject("object");
-    stage->setAngleDelta(M_PI / 12);
+    //stage->setAngleDelta(M_PI / 12);
     stage->setMonitoredStage(current_state_ptr);  // Hook into current state
 
     Eigen::Isometry3d grasp_frame_transform;
-    Eigen::Quaterniond q = Eigen::AngleAxisd(M_PI / 2, Eigen::Vector3d::UnitX()) *
-                          Eigen::AngleAxisd(M_PI / 2, Eigen::Vector3d::UnitY()) *
+    Eigen::Quaterniond q = Eigen::AngleAxis(M_PI / 2, Eigen::Vector3d::UnitX()) *
+                          Eigen::AngleAxisd(0.0, Eigen::Vector3d::UnitY()) *
                           Eigen::AngleAxisd(M_PI / 2, Eigen::Vector3d::UnitZ());
     grasp_frame_transform.linear() = q.matrix();
-    grasp_frame_transform.translation().z() = 0.1;
+    grasp_frame_transform.translation().z() = 0.14;
 
       // Compute IK
     auto wrapper =
